@@ -141,7 +141,7 @@
               <img src="img/pic">
             </div>
               <a href="#people" class="article-label" target="_blank">人物</a>
-              <a href="http://www.ifanr.com/849911" class="article-link cover-block" target="_blank"></a>
+              <a href="http://www.ifanr.com/849911" class="article-link cover-block" target="_blank" id="article-link"></a>
               <h3>Twitter 上被特朗普拉黑的用户上书白宫：不放出小黑屋就起诉！</h3>
               <time>06-09 10:57</time>
 
@@ -184,12 +184,10 @@ $(function(){
 function getData(config, offset,size){
 
   config.isAjax = true;
-
   $.ajax({
-    type: 'POST',
-    url: 'data.php', //这里offset,size无作用，仅方便调试
-    date: { last: offset, amount: size },
-    dataType: 'json',
+    url: "php/getNews.php",  
+    type: "POST",
+    dataType: "json",
     success: function(reponse){
     
       config.isAjax = false;
@@ -197,7 +195,7 @@ function getData(config, offset,size){
       var data = reponse;
       var sum = reponse.length;
       
-      var result = '';
+      var result = "";
       
       /************业务逻辑块：实现拼接html内容并append到页面*****************/
       
@@ -210,14 +208,20 @@ function getData(config, offset,size){
         size = sum - offset;
       }
 
-      
+      var str = location.href;
+      var arr = str.split("/");
+      delete arr[arr.length-1];
+      var dir = arr.join("/");
+
       /*使用for循环模拟SQL里的limit(offset,size)*/
       for(var i=offset; i< (offset+size); i++){
         result +='<div class="col-sm-3"><div class="article-item"> <div class="article-image"><img src="img/pic"></div><a href="#people" class="article-label" target="_blank">'
         + data[i].cate 
         +'</a><a href="'
-        + data[i].link
-        + '" class="article-link cover-block" target="_blank"></a><h3>' 
+        + dir 
+        + 'article?id='
+        + data[i].news_thread
+        + '" class="article-link cover-block"  target="_blank"></a><h3>' 
         + data[i].title 
         + '</h3><time>'
         + data[i].date 
@@ -227,6 +231,8 @@ function getData(config, offset,size){
       }
 
       $('.js-blog-list').append(result);
+
+
       
       /*******************************************/
       
@@ -240,8 +246,8 @@ function getData(config, offset,size){
       }
     },
       error: function(xhr, status, error){
-        var err = eval("(" + xhr.responseText + ")");
-        alert(err.Message);
+        var err = 'xhr:' + xhr + '(' + xhr.responseText + ')';
+        alert(err);
     }
   });
 }

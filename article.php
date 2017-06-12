@@ -51,42 +51,48 @@
   </div>
 </div>
 
-
-
-        <div class="js-blog-list">
-
-        </div>
-
-
   </div>
     <!-- /.container -->
 
 
-<script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
 
+<script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
 
 <script>
 $(function(){
 
+	news_thread = <?php echo $_GET['id']; ?>;
+ 
+  $.ajax({
+    url: "php/getArticle.php",  
+    type: "POST",
+    data:{news_thread:news_thread},
+    dataType: "json",
+    success: function(reponse){
 
-    news_thread = "1701018";
-    offset = 0;
-    size = 4;
-    $.ajax({
-        url: "php/getNews.php",  
-        type: "POST",
-        data:{last:offset,amount:size},
-        dataType: "json",
-        error: function(){  
-            alert('Error loading XML document');  
-        },  
-        success: function(dataa){//如果调用php成功            
-            alert(dataa);
-        }
-    });
-    
+      var data = reponse;
+      
+      var title=document.getElementById("article-title");
+      title.innerHTML=data[0].title;
+
+      var date=document.getElementById("article-date");
+      date.innerHTML=data[0].date;
+
+      var cate=document.getElementById("article-cate");
+      cate.innerHTML=data[0].cate;
+      
+      $('.article-content').append(data[0].content);
+      
+    },
+      error: function(xhr, status, error){
+        var err = 'xhr:' + xhr + '(' + xhr.responseText + ')';
+        alert(err);
+    }
+  });
+
 });
 </script>
+
 
 
 

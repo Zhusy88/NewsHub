@@ -4,13 +4,17 @@
 
 
 
-$news_thread = $_POST['news_thread'] ?? "";
+$last = $_POST['last'] ?? "";
+$amount = $_POST['amount'] ?? '';
+var_dump($_POST);
 
 
-
-$filter = ['news_thread' => $news_thread];
+$filter = [];
 $options = [
-	'projection' => ['_id' => 0]
+	'projection' => ['_id' => 0],
+	'sort' => array("date" => -1),
+	'skip' => $last,
+	'limit' => $amount
 ];
 $query = new MongoDB\Driver\Query($filter,$options);
 $rows = $con->executeQuery('NewsDB.thepaper', $query);
@@ -22,7 +26,6 @@ foreach($rows as $r){
 		'cate'=>$r->cate,
 		'link'=>$r->link,
 		'news_thread'=>$r->news_thread,
-		'content'=>$r->content
       );
 }
 //header('Content-type:text/json');

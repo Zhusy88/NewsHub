@@ -104,29 +104,16 @@
 .o-single-content__body__content {
     width: 610px;
     float: right;
-}
-
-.s-single-article, .s-single-article p {
     font-size: 16px;
     color: #333;
     line-height: 29px;
+    margin: 0 0 13px;
 }
-.s-single-article {
-    margin-bottom: 23px;
-}
-.c-article-content {
-    margin: 0 auto;
-}
-
 
 .s-single-article p {
     margin: 0 0 13px;
 }
-.s-single-article, .s-single-article p {
-    font-size: 16px;
-    color: #333;
-    line-height: 29px;
-}
+
 
 .s-single-article a img, .s-single-article p img {
     margin: 0 auto;
@@ -141,4 +128,11 @@
 }
 img {
     border-style: none;
+}
+
+
+/*澎湃新闻*/
+.contheight {
+    height: 16px;
+    width: 100%;
 }
