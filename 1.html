@@ -19,74 +19,110 @@
       <script src="js/vendor/html5shiv.js"></script>
       <script src="js/vendor/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/MyLogin.css" />
+   <!--  <link rel="stylesheet" type="text/css" href="css/style.css" /> -->
+    <script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="js/main.js"></script>
+
   </head>
   <body>
 
 
 
+<div class="container">
 
-  <div class="container">
 
-<div class="o-single">
-  <div class="o-single-content">
+<div id="main">
 
-    <div id="article-header" class="o-single-content__header" style="background-image: url('http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/06/oneplus.jpg')">
-      <div class="o-single-content__body c-single-normal__header">
-        <div class="c-article-header-meta">
-          <a class="text-link" href="http://www.ifanr.com/category/%e8%8c%83%e8%af%84" target="_blank">
-          <span class="glyphicon glyphicon-bookmark c-article-header-meta__category" id="article-cate">cate</span>
-          </a>
-          <span class="c-article-header-meta__time" id="article-date">date</span>
-        </div>
-        <h1 class="c-single-normal__title" id="article-title"title</h1>
-      </div>
-    </div>      
-
-    <div class="o-single-content__body o-single-content__body--main">
-      <article class="o-single-content__body__content article-content">
-        <!-- 文章内容 -->
-      </article>
-    </div>
-
+  <div class="demo">
+    <nav class="main_nav">
+      <ul>
+        <li><a class="cd-signin" href="#0">登录</a></li>
+        <li><a class="cd-signup" href="#0">注册</a></li>
+      </ul>
+    </nav>
   </div>
+
+  <div class="cd-user-modal"> 
+
+    <div class="cd-user-modal-container">
+
+      <ul class="cd-switcher">
+        <li class="f-l active"><a href="#0">登录</a></li>
+        <li class="f-r"><a href="#0">注册</a></li>
+      </ul>
+
+      <div id="cd-login"> <!-- 登录表单 -->
+        <form class="cd-form">
+          <p class="fieldset">
+            <label class="image-replace cd-username" for="signin-username">用户名</label>
+            <input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名">
+          </p>
+
+          <p class="fieldset">
+            <label class="image-replace cd-password" for="signin-password">密码</label>
+            <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="输入密码">
+          </p>
+
+          <p class="fieldset">
+            <input type="checkbox" id="remember-me" checked>
+            <label for="remember-me">记住登录状态</label>
+          </p>
+
+          <p class="fieldset">
+            <input class="full-width2" type="submit" value="登 录">
+          </p>
+        </form>
+      </div>
+
+      <div id="cd-signup"> <!-- 注册表单 -->
+        <form class="cd-form">
+          <p class="fieldset">
+            <label class="image-replace cd-username" for="signup-username">用户名</label>
+            <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="输入用户名">
+          </p>
+
+          <p class="fieldset">
+            <label class="image-replace cd-email" for="signup-email">邮箱</label>
+            <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="输入mail">
+          </p>
+
+          <p class="fieldset">
+            <label class="image-replace cd-password" for="signup-password">密码</label>
+            <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="输入密码">
+          </p>
+
+          <p class="fieldset">
+            <input type="checkbox" id="accept-terms">
+            <label for="accept-terms">我已阅读并同意 <a href="#0">用户协议</a></label>
+          </p>
+
+          <p class="fieldset">
+            <input class="full-width2" type="submit" value="注册新用户">
+          </p>
+        </form>
+      </div>
+
+      <a href="#0" class="cd-close-form">关闭</a>
+    </div>
+  </div> 
+
+</div>
+
+
 </div>
 
 
 
-        <div class="js-blog-list">
-
-        </div>
+  
 
 
   </div>
     <!-- /.container -->
 
 
-<script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
 
-
-<script>
-$(function(){
-
-
-    news_thread = "1701018";
-    offset = 0;
-    size = 4;
-    $.ajax({
-        url: "php/getNews.php",  
-        type: "POST",
-        data:{last:offset,amount:size},
-        dataType: "json",
-        error: function(){  
-            alert('Error loading XML document');  
-        },  
-        success: function(dataa){//如果调用php成功            
-            alert(dataa);
-        }
-    });
-    
-});
-</script>
 
 
 
