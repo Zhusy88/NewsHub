@@ -40,7 +40,7 @@
     line-height: 1.5rem;
     background-color: rgba(0,0,0,.5);
     border-radius: 0.125rem;
-    z-index: 20;
+    z-index: 5;
 }
 
 body .cover-block {
@@ -51,7 +51,7 @@ body .cover-block {
     bottom: 0;
 }
 .article-item .article-link {
-    z-index: 10;
+    z-index: 1;
 }
 
 .article-item h3 {
@@ -79,7 +79,7 @@ body .cover-block {
 .article-item .article-src {
     float: right;
     position: relative;
-    z-index: 100;
+    z-index: 10;
     padding: 0 0.625rem 0 0;
     text-align: right;
     color: #999;

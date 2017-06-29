@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,6 +24,8 @@
     <![endif]-->
     <script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
     <script src="js/main.js"></script>
+
+
   </head>
   <body>
 
@@ -62,10 +65,29 @@
               </ul>       
           </li>
 
+          <?php
+            
+            if(isset($_SESSION['username'])){
+              echo 11;
+          ?>
+            <li>
+            <p class="navbar-text" id="user_name"><?php echo $_SESSION['username']?></p>
+            </li>
+            
+            <li><a class="cd-logout" onclick="return submitLogOut()">登出</a></li>
+          <?php   
+            }
+            else{
+              echo 22;
+          ?>
           <div class="main_nav">
             <li  style="margin-right: 1rem;"><a class="cd-signin" href="#0">登陆</a></li>
             <li><a class="cd-signup" href="#0">注册</a></li>
           </div>
+
+          <?php
+            }
+          ?>
 
         </ul>
       </div>
@@ -89,7 +111,7 @@
       </ul>
 
       <div id="cd-login"> <!-- 登录表单 -->
-        <form class="cd-form">
+        <form class="cd-form" onsubmit="return submitSignIn()">
           <p class="fieldset">
             <label class="image-replace cd-username" for="signin-username">用户名</label>
             <input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名">
@@ -97,7 +119,7 @@
 
           <p class="fieldset">
             <label class="image-replace cd-password" for="signin-password">密码</label>
-            <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="输入密码">
+            <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="输入密码">
           </p>
 
           <p class="fieldset">
@@ -112,7 +134,7 @@
       </div>
 
       <div id="cd-signup"> <!-- 注册表单 -->
-        <form class="cd-form">
+        <form class="cd-form" onsubmit="return submitSignUp()">
           <p class="fieldset">
             <label class="image-replace cd-username" for="signup-username">用户名</label>
             <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="输入用户名">
@@ -257,6 +279,74 @@
     <!-- /.container -->
 
 
+
+      <!-- 提交注册！ -->
+  <script>
+      function submitSignUp() {
+        //var name = $("[name='name']");
+      //var password= $("[name='password']");
+      username = document.getElementById('signup-username').value;
+      passwd = document.getElementById('signup-password').value;
+      email = document.getElementById('signup-email').value;
+
+        //alert("start!");
+          $.ajax({
+              type: "POST",
+              url: "php/signup.php",
+              dataType: "json",
+              data:{username:username,passwd:passwd,email:email},
+              success: function(msg) {
+                //alert(msg);
+                alert("注册成功!");
+                location.reload();
+              }
+          });
+          return false;
+      }
+
+      function submitSignIn() {
+      username = document.getElementById('signin-username').value;
+      passwd = document.getElementById('signin-password').value;
+
+          $.ajax({
+              type: "POST",
+              url: "php/signin.php",
+              dataType: "json",
+              data:{username:username,passwd:passwd},
+              success: function(msg) {
+                //alert(JSON.stringify(msg));
+                //alert(msg.state);
+                if(msg.state == 1){
+                  alert("登陆成功!");
+                  location.reload();
+                }
+                else if(msg.state == 0){
+                  alert("账号或密码错误！");
+                }
+                else if(msg.state == 2){
+                  alert("请输入账号和密码！");
+                }
+                
+              }
+          });
+          return false;
+      }
+
+      function submitLogOut() {
+        //alert("start!");
+
+          $.ajax({
+              type: "POST",
+              url: "php/logout.php",
+              success: function(msg) {
+                location.reload();
+                //alert("登出成功！");
+              }
+          });
+          return false;
+      }
+  </script>
+
 <!-- 实现点击加载更多/滚动加载 -->
 
 
@@ -338,6 +428,9 @@ function getData(config, offset,size){
   $.loadmore.get(getData, {scroll: true, size:4});
 });
 </script>
+
+
+
 
     <!-- bootstrap.js -->
 

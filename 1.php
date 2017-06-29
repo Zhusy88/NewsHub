@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,59 +25,7 @@
     <script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
     <script src="js/main.js"></script>
 
-	    <!-- 提交注册！ -->
-	<script>
-	    function submitSignUp() {
-	    	//var name = $("[name='name']");
-			//var password= $("[name='password']");
-			username = document.getElementById('signup-username').value;
-			passwd = document.getElementById('signup-password').value;
-			email = document.getElementById('signup-email').value;
 
-	    	//alert("start!");
-	        $.ajax({
-	            type: "POST",
-	            url: "php/signup.php",
-	            dataType: "json",
-	            data:{username:username,passwd:passwd,email:email},
-	            success: function(msg) {
-	            	//alert(msg);
-	            	alert("注册成功!");
-	            }
-	        });
-	        return false;
-	    }
-
-	    function submitSignIn() {
-	    	//var name = $("[name='name']");
-			//var password= $("[name='password']");
-			username = document.getElementById('signin-username').value;
-			passwd = document.getElementById('signin-password').value;
-
-	    	//alert("start!");
-	        $.ajax({
-	            type: "POST",
-	            url: "php/signin.php",
-	            dataType: "json",
-	            data:{username:username,passwd:passwd},
-	            success: function(msg) {
-	            	//alert(JSON.stringify(msg));
-	            	//alert(msg.state);
-	            	if(msg.state == 1){
-	            		alert("登陆成功!");
-	            	}
-	            	else if(msg.state == 0){
-	            		alert("账号或密码错误！");
-	            	}
-	            	else if(msg.state == 2){
-	            		alert("请输入账号和密码！");
-	            	}
-	            	
-	            }
-	        });
-	        return false;
-	    }
-	</script>
   </head>
   <body>
 
@@ -116,17 +65,29 @@
               </ul>       
           </li>
 
-       
-          	<li>
-          	<p class="navbar-text">XXX</p>
-          	</li>
-          	
-          	<li><a class="cd-logout" href="">登出</a></li>
-        
-<!-- 	        <div class="main_nav">
-	          <li  style="margin-right: 1rem;"><a class="cd-signin" href="#0">登陆</a></li>
-	          <li><a class="cd-signup" href="#0">注册</a></li>
-	        </div> -->
+          <?php
+            
+            if(isset($_SESSION['username'])){
+              echo 11;
+          ?>
+            <li>
+            <p class="navbar-text" id="user_name"><?php echo $_SESSION['username']?></p>
+            </li>
+            
+            <li><a class="cd-logout" onclick="return submitLogOut()">登出</a></li>
+          <?php   
+            }
+            else{
+              echo 22;
+          ?>
+          <div class="main_nav">
+            <li  style="margin-right: 1rem;"><a class="cd-signin" href="#0">登陆</a></li>
+            <li><a class="cd-signup" href="#0">注册</a></li>
+          </div>
+
+          <?php
+            }
+          ?>
 
         </ul>
       </div>
@@ -158,7 +119,7 @@
 
           <p class="fieldset">
             <label class="image-replace cd-password" for="signin-password">密码</label>
-            <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="输入密码">
+            <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="输入密码">
           </p>
 
           <p class="fieldset">
@@ -318,6 +279,73 @@
     <!-- /.container -->
 
 
+
+      <!-- 提交注册！ -->
+  <script>
+      function submitSignUp() {
+        //var name = $("[name='name']");
+      //var password= $("[name='password']");
+      username = document.getElementById('signup-username').value;
+      passwd = document.getElementById('signup-password').value;
+      email = document.getElementById('signup-email').value;
+
+        //alert("start!");
+          $.ajax({
+              type: "POST",
+              url: "php/signup.php",
+              dataType: "json",
+              data:{username:username,passwd:passwd,email:email},
+              success: function(msg) {
+                //alert(msg);
+                alert("注册成功!");
+              }
+          });
+          return false;
+      }
+
+      function submitSignIn() {
+      username = document.getElementById('signin-username').value;
+      passwd = document.getElementById('signin-password').value;
+
+          $.ajax({
+              type: "POST",
+              url: "php/signin.php",
+              dataType: "json",
+              data:{username:username,passwd:passwd},
+              success: function(msg) {
+                //alert(JSON.stringify(msg));
+                //alert(msg.state);
+                if(msg.state == 1){
+                  alert("登陆成功!");
+                  location.reload();
+                }
+                else if(msg.state == 0){
+                  alert("账号或密码错误！");
+                }
+                else if(msg.state == 2){
+                  alert("请输入账号和密码！");
+                }
+                
+              }
+          });
+          return false;
+      }
+
+      function submitLogOut() {
+        //alert("start!");
+
+          $.ajax({
+              type: "POST",
+              url: "php/logout.php",
+              success: function(msg) {
+                location.reload();
+                //alert("登出成功！");
+              }
+          });
+          return false;
+      }
+  </script>
+
 <!-- 实现点击加载更多/滚动加载 -->
 
 
@@ -399,7 +427,6 @@ function getData(config, offset,size){
   $.loadmore.get(getData, {scroll: true, size:4});
 });
 </script>
-
 
 
 

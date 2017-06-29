@@ -1,6 +1,6 @@
 <?php
 // 连接到mongodb
-   $con  = new MongoDB\Driver\Manager('mongodb://127.0.0.1:27017');
+include"connectToDB.php";
 
 $filter = [];
 $options = [
