@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Newshub</title>
+    <title>订制| Newshub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
@@ -23,7 +23,7 @@
       <script src="js/vendor/respond.min.js"></script>
     <![endif]-->
     <script src="../newshub/js/vendor/jquery-3.2.1.min.js"></script>
-    <script src="js/main.js"></script>
+
 
 
   </head>
@@ -41,7 +41,7 @@
         </div>
       
         <ul class="nav navbar-nav">
-          <li class="active"><a href="../newshub/index">首页</a></li>
+          <li><a href="../newshub/index">首页</a></li>
           <li><a href="category/news.php">时事</a></li>
           <li><a href="category/tech.php">科技</a></li>
           <li><a href="category/sports.php">体育</a></li>
@@ -51,14 +51,14 @@
 
         <!-- Right Navbar Button -->
         <ul class="nav navbar-nav navbar-right">
-         
+          
+
           <?php
             
             if(isset($_SESSION['username'])){
              
           ?>
-            <li><a href="like.php">订制</a></li>
-          
+            <li class="active"><a href="#">订制</a></li>
             <li>
             <p class="navbar-text" id="user_name"><?php echo $_SESSION['username']?></p>
             </li>
@@ -159,38 +159,82 @@
 
 
 
-<div style="padding-bottom: 1.5rem;">
-      <div class="c-archive-header o-full-width" style="background-image:url('img/News/banner.jpg')">
+
+      <div class="c-archive-header o-full-width" style="background-image:url('img/like.jpg')">
             <div class="o-wrapper o-wrapper--large">
-            <h1 class="c-archive-header__title">NewsHub</h1>
-            <p class="c-archive-header__desc">为你呈现今天这世界发生的事:)</p>
+            <h1 class="c-archive-header__title">订制</h1>
+            <p class="c-archive-header__desc">你即你自由</p>
           </div>
         </div>
 
-</div>
 
 
 
+    <div class="container-fluid" id="footerRecPosts">
     <div class="container">
+      <div class="row" style="padding-top: 5rem; padding-bottom: 5rem;">
 
-      <div class="row">
-      
-        <div class="js-blog-list">
 
-        </div>
-      </div>
-      
-        <div class="row">
-            <div class="load-more-card">
-                <span class="js-load-more">加载更多</span>
+            <div class="col-sm-3">
+              <div class="article-item">
+                <div class="like-image unlike">
+                  <img style="background-image: url(img/News/news_like">
+                  <a href="#">开启订制</a>
+                </div>
+                <a href="category/news.php" class="article-label" target="_blank">时事</a>
+               
+               
+              
+              </div>
             </div>
-        </div>
-        
+
+            <div class="col-sm-3">
+              <div class="article-item">
+                <div class="like-image like">
+                  <img style="background-image: url(img/News/tech_like">
+                  <a href="#">关闭订制</a>
+                </div>
+                <a href="category/tech.php" class="article-label" target="_blank">科技</a>
+              
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="article-item">
+                <div class="like-image like">
+                  <img style="background-image: url(img/News/sports_like">
+                  <a href="#">关闭订制</a>
+                </div>
+                <a href="category/sports.php" class="article-label" target="_blank">体育</a>
+              
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="article-item">
+                <div class="like-image unlike">
+                  <img style="background-image: url(img/News/ent_like">
+                  <a href="#">开启订制</a>
+                </div>
+                <a href="category/ent.php" class="article-label" target="_blank">娱乐</a>
+              
+              </div>
+            </div>
+
+            </div>
+
+            <div class="row" style="padding-top: 5rem; padding-bottom: 5rem;"></div>
+
+      </div>
+    </div>
+
     </div>
     <!-- /.container -->
 
+
     <!-- 底部栏 -->
     <?php include 'footer.php';?>
+
 
       <!-- 提交注册！ -->
   <script>
@@ -258,97 +302,6 @@
       }
   </script>
 
-<!-- 实现点击加载更多/滚动加载 -->
-
-
-<script src="js/loadmore/loadmore.js"></script>
-<script>
-$(function(){
-
-function getData(config, offset,size){
-
-  config.isAjax = true;
-  $.ajax({
-    url: "php/getNews.php",  
-    type: "POST",
-    dataType: "json",
-    success: function(reponse){
-    
-      config.isAjax = false;
-
-      var data = reponse;
-      var sum = reponse.length;
-      
-      var result = "";
-      
-      /************业务逻辑块：实现拼接html内容并append到页面*****************/
-      
-      /*如果剩下的记录数不够分页，就让分页数取剩下的记录数
-      * 例如分页数是5，只剩2条，则只取2条
-      *
-      * 实际MySQL查询时不写这个
-      */
-      if(sum - offset < size ){
-        size = sum - offset;
-      }
-
-      var str = location.href;
-      var arr = str.split("/");
-      delete arr[arr.length-1];
-      var dir = arr.join("/");
-
-
-      /*使用for循环模拟SQL里的limit(offset,size)*/
-      for(var i=offset; i< (offset+size); i++){
-        //判断有无封面
-        if(!data[i].pic){
-          data[i].pic = "img/pic";
-        }
-
-        result +='<div class="col-sm-3"><div class="article-item"> <div class="article-image"><img style="background-image: url('
-        + data[i].pic
-        +'"></div><a href="#people" class="article-label" target="_blank">'
-        + data[i].cate 
-        +'</a><a href="'
-        + dir 
-        + 'article?id='
-        + data[i].title
-        + '" class="article-link cover-block"  target="_blank"></a><h3>' 
-        + data[i].title 
-        + '</h3><time>'
-        + data[i].date 
-        + '</time><div class="article-src"><span class="glyphicon glyphicon-bookmark article-src-icon"></span><span class="article-src-text">'
-        + data[i].src 
-        +'</span></div></div></div>';
-      }
-
-      $('.js-blog-list').append(result);
-
-
-      
-      /*******************************************/
-      
-      /*隐藏more*/
-      if ( (offset + size) >= sum){
-        $(".js-load-more").hide();
-        config.isEnd = true; /*停止滚动加载请求*/
-        //提示没有了
-      }else{
-        $(".js-load-more").show();
-      }
-    },
-      error: function(xhr, status, error){
-        var err = 'xhr:' + xhr + '(' + xhr.responseText + ')';
-        alert(err);
-    }
-  });
-}
-  
-  $.loadmore.get(getData, {scroll: true, size:8});
-});
-</script>
-
-
 
 
     <!-- bootstrap.js -->
@@ -357,3 +310,4 @@ function getData(config, offset,size){
 
   </body>
 </html>
+

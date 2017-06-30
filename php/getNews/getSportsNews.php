@@ -1,20 +1,16 @@
 <?php
 // 连接到mongodb
-include"connectToDB.php";
+include"../connectToDB.php";
 
-
-
-$news_thread = $_POST['news_thread'] ?? "";
-
-
-
-$filter = ['title' => $news_thread];
+$filter = ['category' => 'sports'];
 $options = [
-	'projection' => ['_id' => 0]
+	'projection' => ['_id' => 0],
+	'sort' => array("date" => -1)
 ];
 $query = new MongoDB\Driver\Query($filter,$options);
 $rows = $con->executeQuery('NewsDB.NewsAPI', $query);
 foreach($rows as $r){
+
    	$sayList[] = array(
 		'title'=>$r->title,
 		'src'=>$r->src,
@@ -22,11 +18,10 @@ foreach($rows as $r){
 		'cate'=>$r->category,
 		'link'=>$r->weburl,
 		'pic'=>$r->pic,
-		//'news_thread'=>$r->news_thread,
-		'content'=>$r->content
+		'news_thread'=>(string)new MongoDB\BSON\ObjectId(),
       );
+   	//var_dump($r);
 }
-//header('Content-type:text/json');
+
 echo json_encode($sayList, JSON_UNESCAPED_UNICODE);
-//echo json_encode($sayList);
 ?>

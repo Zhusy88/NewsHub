@@ -8,9 +8,9 @@
     <!-- Loading Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet">
 
-    <link href="../newshub/MyIndex.css" rel="stylesheet">
+    <link href="css/MyIndex.css" rel="stylesheet">
 
-    <link href="../newshub/MyArticle.css" rel="stylesheet">
+    <link href="css/MyArticle.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="img/favicon.ico">
 
@@ -61,7 +61,7 @@
 <script>
 $(function(){
 
-	news_thread = <?php echo $_GET['id']; ?>;
+	news_thread = '<?php echo $_GET['id']; ?>';
  
   $.ajax({
     url: "php/getArticle.php",  
@@ -81,8 +81,13 @@ $(function(){
       var cate=document.getElementById("article-cate");
       cate.innerHTML=data[0].cate;
       
+
       $('.article-content').append(data[0].content);
-      
+
+      picurl='url(' + (data[0].pic) + ')';
+      var pic = document.getElementById("article-header");
+      pic.style.backgroundImage = picurl;
+
     },
       error: function(xhr, status, error){
         var err = 'xhr:' + xhr + '(' + xhr.responseText + ')';
